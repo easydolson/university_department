@@ -1,0 +1,65 @@
+{% extends 'department/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Информационная система кафедры</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_employees }}</h5>
+                <p class="card-text">Всего сотрудников</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ full_rate }}</h5>
+                <p class="card-text">На полной ставке</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ part_time }}</h5>
+                <p class="card-text">Не на полной ставке</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_subjects }}</h5>
+                <p class="card-text">Дисциплин</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Быстрые действия</h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'employee_list' %}" class="btn btn-primary me-2">Список сотрудников</a>
+                <a href="{% url 'subject_list' %}" class="btn btn-secondary">Список дисциплин</a>
+                <a href="/admin" class="btn btn-outline-dark mt-2">Админ-панель</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Активная дополнительная работа</h5>
+            </div>
+            <div class="card-body">
+                <p>Активных задач: {{ active_work }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

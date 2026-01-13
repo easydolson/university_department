@@ -1,0 +1,12 @@
+.idea/
+
+# База данных SQLite
+db.sqlite3
+
+# Виртуальное окружение
+venv/
+.venv/
+
+# Питон кэш
+__pycache__/
+*.pyc

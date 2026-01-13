@@ -1,0 +1,124 @@
+{% extends 'department/base.html' %}
+
+{% block title %}{{ employee.full_name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Информация о сотруднике</h5>
+            </div>
+            <div class="card-body">
+                <h4>{{ employee.full_name }}</h4>
+                <hr>
+                <p><strong>Должность:</strong> {{ employee.get_position_display }}</p>
+                <p><strong>Ставка:</strong>
+                    {% if employee.rate == 1.0 %}
+                        <span class="badge bg-success">Полная</span>
+                    {% else %}
+                        <span class="badge bg-warning">{{ employee.rate }}</span>
+                    {% endif %}
+                </p>
+                <p><strong>Рабочее место:</strong>
+                    {% if employee.classroom %}
+                        {{ employee.classroom.room_number }}
+                    {% else %}
+                        <span class="text-muted">Не назначено</span>
+                    {% endif %}
+                </p>
+                <p><strong>Email:</strong> {{ employee.email }}</p>
+                <p><strong>Телефон:</strong> {{ employee.phone|default:"Не указан" }}</p>
+                <p><strong>Дата приема:</strong> {{ employee.hire_date }}</p>
+                <a href="/admin/department/employee/{{ employee.id }}/change/" class="btn btn-sm btn-outline-primary mt-2">Редактировать</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Преподаваемые дисциплины</h5>
+            </div>
+            <div class="card-body">
+                {% if subjects %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Дисциплина</th>
+                                <th>Семестр</th>
+                                <th>Часов в неделю</th>
+                                <th>Ответственный</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for teaching in subjects %}
+                            <tr>
+                                <td>{{ teaching.subject.name }}</td>
+                                <td>{{ teaching.subject.semester }}</td>
+                                <td>{{ teaching.hours_per_week }}</td>
+                                <td>
+                                    {% if teaching.is_responsible %}
+                                        <span class="badge bg-success">Да</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Нет</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Нет назначенных дисциплин.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Дополнительная работа</h5>
+            </div>
+            <div class="card-body">
+                {% if additional_work %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Вид работы</th>
+                                <th>Описание</th>
+                                <th>Часов/мес</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for work in additional_work %}
+                            <tr>
+                                <td>{{ work.get_work_type_display }}</td>
+                                <td>{{ work.description|truncatechars:50 }}</td>
+                                <td>{{ work.hours_per_month }}</td>
+                                <td>
+                                    {% if work.is_active %}
+                                        <span class="badge bg-success">Активно</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Завершено</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Нет дополнительной работы.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'employee_list' %}" class="btn btn-secondary">← Назад к списку</a>
+</div>
+{% endblock %}
